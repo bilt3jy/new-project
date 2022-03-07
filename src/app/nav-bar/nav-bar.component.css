@@ -1,0 +1,7 @@
+.myactive {
+    background-color: #242e47;
+    transform: scale(1.1);
+    border-radius: 10%;
+    color: black;
+    transform: scale(1.05);
+}
