@@ -1,18 +1,36 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private _HttpClient: HttpClient) {}
-
-  registerForm(formData: any): Observable<any> {
-    return this._HttpClient.post('https://route-egypt-api.herokuapp.com/signup',formData);
+  constructor(private _HttpClient: HttpClient) {
+    if( localStorage.getItem('token')!=null){
+      this.saveCurrentUser()
+    }
   }
 
-  loginForm(formData:any): Observable<any> {
-    return this._HttpClient.post('https://route-egypt-api.herokuapp.com/signin',formData);
+  registerForm(formData: any): Observable<any> {
+    return this._HttpClient.post(
+      'https://route-egypt-api.herokuapp.com/signup',
+      formData
+    );
+  }
+
+  loginForm(formData: any): Observable<any> {
+    return this._HttpClient.post(
+      'https://route-egypt-api.herokuapp.com/signin',
+      formData
+    );
+  }
+
+  currentUser=new BehaviorSubject(null)
+  saveCurrentUser() {
+    let token: any = localStorage.getItem('token');
+    let data:any = jwt_decode(token);
+    this.currentUser.next(data)
   }
 }

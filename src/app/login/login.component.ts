@@ -26,6 +26,8 @@ export class LoginComponent implements OnInit {
       .subscribe((response) => {
        if(response.message=='success'){
          this._Router.navigate(['/home'])
+         localStorage.setItem('token',response.token)
+         this._AuthService.saveCurrentUser()
        }else{
          this.errors=response.message
        }

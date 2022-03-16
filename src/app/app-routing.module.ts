@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth.guard';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { MovieComponent } from './movie/movie.component';
@@ -10,14 +11,14 @@ import { TvComponent } from './tv/tv.component';
 
 
 const routes: Routes = [
-  {path:"",redirectTo:'register',pathMatch:'full'},
-  {path:"home",component:HomeComponent},
-  {path:"movie",component:MovieComponent},
-  {path:"people",component:PepoleComponent},
-  {path:"tv",component:TvComponent},
+  {path:"",redirectTo:'login',pathMatch:'full'},
+  {path:"home",canActivate:[AuthGuard],component:HomeComponent},
+  {path:"movie",canActivate:[AuthGuard],component:MovieComponent},
+  {path:"people",canActivate:[AuthGuard],component:PepoleComponent},
+  {path:"tv",canActivate:[AuthGuard],component:TvComponent},
   {path:"login",component:LoginComponent},
   {path:"register",component:RegisterComponent},
-  {path:"**",component:NotFoundedComponent}
+  {path:"**",canActivate:[AuthGuard],component:NotFoundedComponent}
 ];
 
 @NgModule({
